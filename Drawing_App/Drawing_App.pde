@@ -15,6 +15,8 @@ color purple = #6900FF;
 color magenta = #D400FF;
 color canvas = #FFFFFF;
 
+color stroke = #030000;
+
 void setup () {
   size(1100, 800); 
   background(cream);
@@ -27,29 +29,36 @@ void draw () {
   square(350, 50, 700);
   
   //buttons
-  button(100, 100, red);
-  button(100, 250, orange);
-  button(100, 400, yellow);
-  button(100, 550, lightGreen);
-  button(100, 700, darkGreen);
-  button(250, 100, cyan);
-  button(250, 250, lightBlue);
-  button(250, 400, darkBlue);
-  button(250, 550, purple);
-  button(250, 700, magenta);
+  button(100, 100, red, stroke);
+  button(100, 250, orange, stroke);
+  button(100, 400, yellow, stroke);
+  button(100, 550, lightGreen, stroke);
+  button(100, 700, darkGreen, stroke);
+  button(250, 100, cyan, stroke);
+  button(250, 250, lightBlue, stroke);
+  button(250, 400, darkBlue, stroke);
+  button(250, 550, purple, stroke);
+  button(250, 700, magenta, stroke);
   
 }
 
-void button (int x, int y, color Color) {
-  fill(Color);
-  ellipse(x, y, 100, 100); 
+void button (int x, int y, color Color, color Stroke) {
   
   if (dist(x, y, mouseX, mouseY) < 50) {
+    
+    stroke = Color;
+    
     if (mousePressed == true) {
-    canvas = Color;
+      canvas = Color;
     }
   }
+  else {
+    stroke = 0;
+  }
+  
+  stroke(Stroke);
+  fill(Color);
+  ellipse(x, y, 100, 100); 
 
-}
-
+} // end button
   
