@@ -12,22 +12,31 @@ color lightBlue = #4BBBFF;
 color darkBlue = #0017FC;
 color purple = #6900FF;
 color magenta = #D400FF;
-color canvas = #FFFFFF;
+
+color pen;
 
 float sliderX;
 
 void setup() {
-  size(1000, 800);
+  size(1100, 800);
+  // Canvas
+  fill(255);
+  strokeWeight(5);
+  square(350, 50, 700);
 } // End setup
 
 void draw() {
-  
-  if (keyPressed) {
-    if (key == ' ') {
-      rect(100, 100, 200, 50); 
-    }
-  }
-  
+  // Buttons
+  button(95, 100, red, 0);
+  button(95, 250, orange, 0);
+  button(95, 400, yellow, 0);
+  button(95, 550, lightGreen, 0);
+  button(95, 700, darkGreen, 0);
+  button(245, 100, cyan, 0);
+  button(245, 250, lightBlue, 0);
+  button(245, 400, darkBlue, 0);
+  button(245, 550, purple, 0);
+  button(245, 700, magenta, 0);
 } // End draw
 
 void button (int x, int y, color Color, color Stroke) {
@@ -37,10 +46,11 @@ void button (int x, int y, color Color, color Stroke) {
     Stroke = Color;
 
     if (mousePressed == true) {
-      canvas = Color;
+      pen = Color;
     }
   }
 
+  strokeWeight(5);
   stroke(Stroke);
   fill(Color);
   ellipse(x, y, 100, 100);
@@ -48,12 +58,22 @@ void button (int x, int y, color Color, color Stroke) {
 
 void mouseDragged() {
   controlSlider();
+  drawing();
 }
 
 void mousePressed() {
   controlSlider();
+  drawing();
 }
 
 void controlSlider() {
   
+}
+
+void drawing() {
+   if (mouseX > 350 && mouseX < 1050 && mouseY > 50 && mouseY < 750) {
+    noStroke();
+    fill(pen);
+    circle(mouseX, mouseY, 50); 
+  } 
 }
