@@ -13,9 +13,9 @@ color darkBlue = #0017FC;
 color purple = #6900FF;
 color magenta = #D400FF;
 
-color pen;
-
 float sliderX;
+
+Pen pen = new Pen(0, 50);
 
 void setup() {
   size(1100, 800);
@@ -46,7 +46,7 @@ void button (int x, int y, color Color, color Stroke) {
     Stroke = Color;
 
     if (mousePressed == true) {
-      pen = Color;
+      pen.setPenColor(Color);
     }
   }
 
@@ -58,22 +58,21 @@ void button (int x, int y, color Color, color Stroke) {
 
 void mouseDragged() {
   controlSlider();
-  drawing();
+  drawStuff();
 }
 
 void mousePressed() {
   controlSlider();
-  drawing();
+  drawStuff();
 }
 
 void controlSlider() {
-  
 }
 
-void drawing() {
-   if (mouseX > 350 && mouseX < 1050 && mouseY > 50 && mouseY < 750) {
+void drawStuff() {
+  if (mouseX > 350 + pen.getSize()/2 && mouseX < 1050 - pen.getSize()/2 && mouseY > 50 + pen.getSize()/2 && mouseY < 750 - pen.getSize()/2) {
     noStroke();
-    fill(pen);
-    circle(mouseX, mouseY, 50); 
-  } 
+    fill(pen.getPenColor());
+    circle(mouseX, mouseY, pen.getSize());
+  }
 }
