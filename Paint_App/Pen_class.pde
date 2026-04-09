@@ -23,3 +23,11 @@ public class Pen {
     size = newSize;
   }
 }
+
+public void drawStuff() {
+  if (mouseX > 350 + pen.getSize()/2 && mouseX < 1050 - pen.getSize()/2 && mouseY > 51 + pen.getSize()/2 && mouseY < 800 - pen.getSize()/2) {
+    noStroke();
+    fill(pen.getPenColor());
+    circle(mouseX, mouseY, pen.getSize());
+  }
+}

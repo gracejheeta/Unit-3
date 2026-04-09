@@ -13,19 +13,23 @@ color darkBlue = #0017FC;
 color purple = #6900FF;
 color magenta = #D400FF;
 
-float sliderX;
+float sliderX = 550;
 
 Pen pen = new Pen(0, 50);
 
 void setup() {
-  size(1100, 800);
+  size(1100, 900);
+  background(cream);
+  
   // Canvas
   fill(255);
   strokeWeight(5);
-  square(350, 50, 700);
+  square(350, 100, 700);
+
 } // End setup
 
 void draw() {
+  
   // Buttons
   button(95, 100, red, 0);
   button(95, 250, orange, 0);
@@ -37,6 +41,20 @@ void draw() {
   button(245, 400, darkBlue, 0);
   button(245, 550, purple, 0);
   button(245, 700, magenta, 0);
+  
+  // rect under slider
+  noStroke();
+  fill(cream);
+  rect(340, 5, 750, 91);
+  // line of slider
+  strokeWeight(5);
+  stroke(255);
+  line(350, 35, 750, 35);
+  // circle of slider
+  noStroke();
+  fill(pen.getPenColor());
+  circle(sliderX, 35, pen.getSize());
+  pen.setSize(map(sliderX, 350, 750, 5, 50));
 } // End draw
 
 void button (int x, int y, color Color, color Stroke) {
@@ -67,12 +85,8 @@ void mousePressed() {
 }
 
 void controlSlider() {
-}
-
-void drawStuff() {
-  if (mouseX > 350 + pen.getSize()/2 && mouseX < 1050 - pen.getSize()/2 && mouseY > 50 + pen.getSize()/2 && mouseY < 750 - pen.getSize()/2) {
-    noStroke();
-    fill(pen.getPenColor());
-    circle(mouseX, mouseY, pen.getSize());
+  if (mouseX > 350 && mouseX < 750 && mouseY > 5 && mouseY < 60) {
+    sliderX = mouseX;
   }
+  
 }
