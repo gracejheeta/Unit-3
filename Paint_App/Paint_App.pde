@@ -16,27 +16,30 @@ color white = #FFFFFF;
 
 float sliderX = 550;
 
-// Objects
 Pen pen = new Pen(0, 50);
-Tool colors = new Tool(100, 100, 100, 50, white, "colors", true);
+Tool colors = new Tool(100, 100, 100, 50, white, "COLORS", true);
 
 void setup() {
   size(1100, 900);
   background(cream);
-  
+
   // Canvas
   fill(255);
   strokeWeight(5);
   square(350, 100, 700);
-
 } // End setup
 
 void draw() {
-  
-  colors.drawTool();
-  
+
   // Buttons
-  if (mousePressed && mouseX > colors.x && mouseX < colors.x + colors.Length && mouseY > colors.y && mouseY < colors.y + colors.Height) {
+  fill(cream);
+  stroke(cream);
+  rect(0, 0, 300, height);
+  colors.drawTool();
+
+
+  if (colors.getShow()) {
+   
     button(95, 100, red, 0);
     button(95, 250, orange, 0);
     button(95, 400, yellow, 0);
@@ -47,10 +50,8 @@ void draw() {
     button(245, 400, darkBlue, 0);
     button(245, 550, purple, 0);
     button(245, 700, magenta, 0);
-  
-    colors.setShow(false);
   }
-  
+
   // rect under slider
   noStroke();
   fill(cream);
@@ -94,7 +95,7 @@ void mousePressed() {
 }
 
 void mouseReleased() {
-  
+  colors.click();
 }
 
 void controlSlider() {
