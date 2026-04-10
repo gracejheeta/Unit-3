@@ -16,6 +16,7 @@ color white = #FFFFFF;
 
 float sliderX = 550;
 
+// Objects
 Pen pen = new Pen(0, 50);
 Tool colors = new Tool(100, 100, 100, 50, white, "COLORS", true);
 
