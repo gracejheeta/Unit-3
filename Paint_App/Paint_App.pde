@@ -48,7 +48,7 @@ void draw() {
     button(245, 550, purple, 0);
     button(245, 700, magenta, 0);
   
-    colors.show = false;
+    colors.setShow(false);
   }
   
   // rect under slider

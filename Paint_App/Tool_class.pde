@@ -24,6 +24,10 @@ public class Tool {
     return Height; 
   }
   
+  public void setShow(boolean newShow) {
+    show = newShow;
+  }
+  
   public Tool (int initX, int initY, int initLength, int initHeight, color initColor, String initTool, boolean initShow) {
     x = initX;
     y = initY;
