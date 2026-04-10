@@ -12,10 +12,13 @@ color lightBlue = #4BBBFF;
 color darkBlue = #0017FC;
 color purple = #6900FF;
 color magenta = #D400FF;
+color white = #FFFFFF;
 
 float sliderX = 550;
 
+// Objects
 Pen pen = new Pen(0, 50);
+Tool colors = new Tool(100, 100, 100, 50, white, "colors", true);
 
 void setup() {
   size(1100, 900);
@@ -30,17 +33,23 @@ void setup() {
 
 void draw() {
   
+  colors.drawTool();
+  
   // Buttons
-  button(95, 100, red, 0);
-  button(95, 250, orange, 0);
-  button(95, 400, yellow, 0);
-  button(95, 550, lightGreen, 0);
-  button(95, 700, darkGreen, 0);
-  button(245, 100, cyan, 0);
-  button(245, 250, lightBlue, 0);
-  button(245, 400, darkBlue, 0);
-  button(245, 550, purple, 0);
-  button(245, 700, magenta, 0);
+  if (mousePressed && mouseX > colors.x && mouseX < colors.x + colors.Length && mouseY > colors.y && mouseY < colors.y + colors.Height) {
+    button(95, 100, red, 0);
+    button(95, 250, orange, 0);
+    button(95, 400, yellow, 0);
+    button(95, 550, lightGreen, 0);
+    button(95, 700, darkGreen, 0);
+    button(245, 100, cyan, 0);
+    button(245, 250, lightBlue, 0);
+    button(245, 400, darkBlue, 0);
+    button(245, 550, purple, 0);
+    button(245, 700, magenta, 0);
+  
+    colors.show = false;
+  }
   
   // rect under slider
   noStroke();
@@ -84,9 +93,12 @@ void mousePressed() {
   drawStuff();
 }
 
+void mouseReleased() {
+  
+}
+
 void controlSlider() {
   if (mouseX > 350 && mouseX < 750 && mouseY > 5 && mouseY < 60) {
     sliderX = mouseX;
   }
-  
 }
