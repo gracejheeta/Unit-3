@@ -13,12 +13,15 @@ color darkBlue = #0017FC;
 color purple = #6900FF;
 color magenta = #D400FF;
 color white = #FFFFFF;
+color black = #000000;
 
 float sliderX = 550;
 
 // Objects
 Pen pen = new Pen(0, 50);
 Tool colors = new Tool(100, 100, 100, 50, white, "COLORS", true);
+Tool slider = new Tool(100, 200, 100, 50, white, "SLIDER", true);
+Tool home = new Tool (500, 825, 100, 50, white, "HOME", false);
 
 void setup() {
   size(1100, 900);
@@ -31,48 +34,43 @@ void setup() {
 } // End setup
 
 void draw() {
-
-  // Buttons
+  // Background behind buttons
   fill(cream);
   stroke(cream);
-  rect(0, 0, 300, height);
+  rect(0, 0, 330, height);
+  
+  // Tool buttons
+  stroke(0);
   colors.drawTool();
-
-
-  if (colors.getShow()) {
-   
-    button(95, 100, red, 0);
-    button(95, 250, orange, 0);
-    button(95, 400, yellow, 0);
-    button(95, 550, lightGreen, 0);
-    button(95, 700, darkGreen, 0);
-    button(245, 100, cyan, 0);
-    button(245, 250, lightBlue, 0);
-    button(245, 400, darkBlue, 0);
-    button(245, 550, purple, 0);
-    button(245, 700, magenta, 0);
+  slider.drawTool();
+  home.drawTool();
+  
+  // Color buttons
+  if (colors.getShow() == false) {
+    drawColors();
+    
+    home.setShow(true);
+    slider.setShow(false);
   }
 
-  // rect under slider
-  noStroke();
-  fill(cream);
-  rect(340, 5, 750, 91);
-  // line of slider
-  strokeWeight(5);
-  stroke(255);
-  line(350, 35, 750, 35);
-  // circle of slider
-  noStroke();
-  fill(pen.getPenColor());
-  circle(sliderX, 35, pen.getSize());
-  pen.setSize(map(sliderX, 350, 750, 5, 50));
+  // Slider
+  if (slider.getShow() == false) {
+    drawSlider();
+    home.setShow(true);
+  }
+  
+  if (home.getShow() == false) {
+    colors.setShow(true);
+    slider.setShow(true);
+  }
+  
 } // End draw
 
 void button (int x, int y, color Color, color Stroke) {
 
   if (dist(x, y, mouseX, mouseY) < 50) {
 
-    Stroke = Color;
+    Stroke = white;
 
     if (mousePressed == true) {
       pen.setPenColor(Color);
@@ -97,10 +95,42 @@ void mousePressed() {
 
 void mouseReleased() {
   colors.click();
+  slider.click();
+  home.click();
+}
+
+void drawSlider() {
+  // rect under slider
+  noStroke();
+  fill(cream);
+  rect(340, 5, 750, 91);
+  // line of slider
+  strokeWeight(5);
+  stroke(255);
+  line(350, 35, 750, 35);
+  // circle of slider
+  noStroke();
+  fill(pen.getPenColor());
+  circle(sliderX, 35, pen.getSize());
+  pen.setSize(map(sliderX, 350, 750, 5, 50));
 }
 
 void controlSlider() {
   if (mouseX > 350 && mouseX < 750 && mouseY > 5 && mouseY < 60) {
     sliderX = mouseX;
   }
+}
+
+void drawColors() {
+    button(95, 100, red, 0);
+    button(95, 250, orange, 0);
+    button(95, 400, yellow, 0);
+    button(95, 550, lightGreen, 0);
+    button(95, 700, darkGreen, 0);
+    button(245, 100, cyan, 0);
+    button(245, 250, lightBlue, 0);
+    button(245, 400, darkBlue, 0);
+    button(245, 550, purple, 0);
+    button(245, 700, magenta, 0);
+    button(170, 840, black, 0);
 }

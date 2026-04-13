@@ -48,7 +48,7 @@ public class Tool {
 
   public void drawTool() {
 
-    if (show == false) {
+    if (show == true) {
 
       fill(Color);
       rect(x, y, Length, Height);
@@ -59,7 +59,7 @@ public class Tool {
 
   public void click() {
     if (mouseX > getX() && mouseX < getX() + getLength() && mouseY > getY() && mouseY < getY() + getHeight()) {
-      toggleShow();
+      show = false;
     }
   }
 }
