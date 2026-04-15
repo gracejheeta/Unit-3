@@ -21,6 +21,7 @@ float sliderX = 525;
 float sliderSize;
 
 PImage kingJulien;
+boolean kingJulienOn = false;
 
 void setup() {
   size(1100, 900);
@@ -31,7 +32,7 @@ void setup() {
   fill(255);
   strokeWeight(5);
   square(350, 150, 700);
-} // End setup
+} // End setup ============================================================
 
 void draw() {
   // Background behind buttons
@@ -56,18 +57,22 @@ void draw() {
   rect(340, 50, 400, 50);
   
   // Slider
-  stroke(black);
+  rectTactile(350, 350, 75, 50, yellow);
+  //stroke(black);
   line(350, 75, 700, 75);
   fill(sliderColor);
-  stroke(sliderColor);
+  //stroke(sliderColor);
   circle(sliderX, 75, sliderSize);
   sliderSize = map(sliderX, 350, 700, 10, 50);
   
-  image(kingJulien, 800, 100);
-} // End draw
+  // Stamp
+  rectTactile(800, 5, 130, 130, yellow);
+  fill(255);
+  rect(800, 5, 130, 130);
+  image(kingJulien, 800, 10, 130, 130);
+} // End draw ===============================================================
 
 void button (int x, int y, color Color, color Stroke) {
-
   if (dist(x, y, mouseX, mouseY) < 50) {
 
     Stroke = white;
@@ -82,16 +87,53 @@ void button (int x, int y, color Color, color Stroke) {
   stroke(Stroke);
   fill(Color);
   ellipse(x, y, 100, 100);
-} // End button
+} // End button ========================================================
+
+void circleTactile (int x, int y, int r, color stroke) {
+  if ( dist(x, y, mouseX, mouseY) < r ){
+     stroke(stroke);
+  }
+} // end circleTactile ========================================================
+
+
+void rectTactile(int x, int y, int w, int h, color stroke) {
+  if (mouseX > x && mouseX < x + w && mouseY > y && mouseY < y + h) {
+    stroke(stroke);
+  } else {
+    stroke(black); 
+  }
+} // end rectTactile ================================================================
 
 void mouseDragged() {
-  controlLines();
+  
+  if (kingJulienOn == false) {
+    // Squiggly lines
+    controlLines();
+  } else {
+    // Stamp tool
+    if (mouseX > 350 && mouseX < 1050 && mouseY > 150 && mouseY < 850) {
+      image(kingJulien, mouseX, mouseY, 130, 130);
+    }
+  }
+  
+  // Slider
   controlSlider();
 }
 
 void mousePressed() {
   controlSlider();
-  controlLines();
+  
+  if (mouseX > 800 && mouseX < 930 && mouseY > 5 && mouseY < 135) {
+    kingJulienOn = !kingJulienOn; 
+  }
+  
+  if (kingJulienOn == false) {
+    controlLines();
+  } else {
+    if (mouseX > 350 && mouseX < 1050 && mouseY > 150 && mouseY < 850) {
+      image(kingJulien, mouseX, mouseY, 130, 130); 
+    }
+  }
 }
 
 void controlSlider() {
