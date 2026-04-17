@@ -57,11 +57,11 @@ void draw() {
   rect(340, 50, 400, 50);
   
   // Slider
-  rectTactile(350, 350, 75, 50, yellow);
-  //stroke(black);
+  stroke(black);
   line(350, 75, 700, 75);
   fill(sliderColor);
   //stroke(sliderColor);
+  rectTactile(350, 50, 400, 50, yellow);
   circle(sliderX, 75, sliderSize);
   sliderSize = map(sliderX, 350, 700, 10, 50);
   
@@ -70,6 +70,27 @@ void draw() {
   fill(255);
   rect(800, 5, 130, 130);
   image(kingJulien, 800, 10, 130, 130);
+  
+  // New button
+  rectTactile(950, 10, 130, 30, yellow);
+  rect(950, 10, 130, 30);
+  fill(black);
+  text("NEW", 1005, 30);
+  
+  // Save button
+  fill(255);
+  rectTactile(950, 50, 130, 30, yellow);
+  rect(950, 50, 130, 30);
+  fill(black);
+  text("SAVE", 1005, 70);
+  
+  // Load buton
+  fill(255);
+  rectTactile(950, 90, 130, 30, yellow);
+  rect(950, 90, 130, 30);
+  fill(black);
+  text("LOAD", 1005, 110);
+  
 } // End draw ===============================================================
 
 void button (int x, int y, color Color, color Stroke) {
@@ -111,8 +132,8 @@ void mouseDragged() {
     controlLines();
   } else {
     // Stamp tool
-    if (mouseX > 350 && mouseX < 1050 && mouseY > 150 && mouseY < 850) {
-      image(kingJulien, mouseX, mouseY, 130, 130);
+    if (mouseX > 350 + 65 && mouseX < 1050 - 65 && mouseY > 150 + 65 && mouseY < 850 - 65) {
+      image(kingJulien, mouseX - 65, mouseY - 65, 130, 130);
     }
   }
   
@@ -131,8 +152,47 @@ void mousePressed() {
     controlLines();
   } else {
     if (mouseX > 350 && mouseX < 1050 && mouseY > 150 && mouseY < 850) {
-      image(kingJulien, mouseX, mouseY, 130, 130); 
+      image(kingJulien, mouseX - 65, mouseY - 65, 130, 130); 
     }
+  }
+}
+
+void mouseReleased() {
+  // New button
+  if (mouseX > 950 && mouseX < 1080 && mouseY > 10 && mouseY < 40) {
+    stroke(black);
+    strokeWeight(5);
+    fill(white);
+    square(350, 150, 700); 
+  }
+  
+  // Save button
+  if (mouseX > 950 && mouseX < 1080 && mouseY > 50 && mouseY < 80) {
+     selectOutput("Choose a name for your new image file!", "saveImage");
+  }
+  
+  // Load button
+  if (mouseX > 950 && mouseX < 1080 && mouseY > 90 && mouseY < 120) {
+    selectInput("Pick an image to load!", "openImage");
+  }
+  
+}
+
+void saveImage(File f) {
+  if (f != null) {
+    PImage canvas = get(350, 150, 700, 700);
+    canvas.save(f.getAbsolutePath());
+  }
+}
+
+void openImage(File f) {
+  if (f != null) {
+     int n = 0;
+     while (n > 100) {
+       PImage pic = loadImage(f.getPath()) ;
+       image(pic, 350, 150);
+       n = n + 1;
+     }
   }
 }
 
