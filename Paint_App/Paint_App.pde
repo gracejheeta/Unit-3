@@ -60,7 +60,6 @@ void draw() {
   stroke(black);
   line(350, 75, 700, 75);
   fill(sliderColor);
-  //stroke(sliderColor);
   rectTactile(350, 50, 400, 50, yellow);
   circle(sliderX, 75, sliderSize);
   sliderSize = map(sliderX, 350, 700, 10, 50);
@@ -71,7 +70,17 @@ void draw() {
   rect(800, 5, 130, 130);
   image(kingJulien, 800, 10, 130, 130);
   
+  // Stamp slider
+  stroke(black);
+  fill(sliderColor);
+  line(750, 5, 750, 50);
+  rectTactile(780, 5, 10, 50, yellow);
+  circle(780, 30, 50);
+  
+  
+  
   // New button
+  fill(255);
   rectTactile(950, 10, 130, 30, yellow);
   rect(950, 10, 130, 30);
   fill(black);
@@ -208,4 +217,9 @@ void controlLines() {
   if (mouseX > 350 + sliderSize/2 && mouseX < 1050 - sliderSize/2 && mouseY > 150 + sliderSize/2 && mouseY < 850 - sliderSize/2) {
     line(pmouseX, pmouseY, mouseX, mouseY);
   }
+}
+
+
+void controlStampSlider() {
+   
 }
