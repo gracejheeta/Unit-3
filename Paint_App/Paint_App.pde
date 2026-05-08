@@ -18,6 +18,7 @@ color lineColor;
 color sliderColor = black;
 
 float sliderX = 525;
+float stampSliderSize;
 float sliderSize;
 
 PImage kingJulien;
@@ -69,15 +70,6 @@ void draw() {
   fill(255);
   rect(800, 5, 130, 130);
   image(kingJulien, 800, 10, 130, 130);
-  
-  // Stamp slider
-  stroke(black);
-  fill(sliderColor);
-  line(750, 5, 750, 50);
-  rectTactile(780, 5, 10, 50, yellow);
-  circle(780, 30, 50);
-  
-  
   
   // New button
   fill(255);
@@ -132,6 +124,7 @@ void rectTactile(int x, int y, int w, int h, color stroke) {
   } else {
     stroke(black); 
   }
+  
 } // end rectTactile ================================================================
 
 void mouseDragged() {
@@ -140,9 +133,11 @@ void mouseDragged() {
     // Squiggly lines
     controlLines();
   } else {
+    stampSliderSize = map(sliderX, 350, 700, 50, 150);
+    
     // Stamp tool
     if (mouseX > 350 + 65 && mouseX < 1050 - 65 && mouseY > 150 + 65 && mouseY < 850 - 65) {
-      image(kingJulien, mouseX - 65, mouseY - 65, 130, 130);
+      image(kingJulien, mouseX - stampSliderSize/2, mouseY - stampSliderSize/2, stampSliderSize, stampSliderSize);
     }
   }
   
@@ -158,10 +153,14 @@ void mousePressed() {
   }
   
   if (kingJulienOn == false) {
+    // squiggly lines
     controlLines();
   } else {
+    stampSliderSize = map(sliderX, 350, 700, 50, 150);
+    
     if (mouseX > 350 && mouseX < 1050 && mouseY > 150 && mouseY < 850) {
-      image(kingJulien, mouseX - 65, mouseY - 65, 130, 130); 
+      // stamp
+      image(kingJulien, mouseX - stampSliderSize/2, mouseY - stampSliderSize/2, stampSliderSize, stampSliderSize); 
     }
   }
 }
@@ -197,7 +196,7 @@ void saveImage(File f) {
 void openImage(File f) {
   if (f != null) {
      int n = 0;
-     while (n > 100) {
+     while (n < 100) {
        PImage pic = loadImage(f.getPath()) ;
        image(pic, 350, 150);
        n = n + 1;
@@ -217,9 +216,4 @@ void controlLines() {
   if (mouseX > 350 + sliderSize/2 && mouseX < 1050 - sliderSize/2 && mouseY > 150 + sliderSize/2 && mouseY < 850 - sliderSize/2) {
     line(pmouseX, pmouseY, mouseX, mouseY);
   }
-}
-
-
-void controlStampSlider() {
-   
 }
