@@ -21,14 +21,19 @@ float sliderX = 525;
 float stampSliderSize;
 float sliderSize;
 
+
 PImage kingJulien;
 boolean kingJulienOn = false;
+
+PImage clover;
+boolean cloverOn = false;
 
 void setup() {
   size(1100, 900);
   background(cream);
   kingJulien = loadImage("kingjulien.png");
-  
+  clover = loadImage("clover.png");
+
   // Canvas
   fill(255);
   strokeWeight(5);
@@ -56,7 +61,7 @@ void draw() {
   fill(cream);
   stroke(cream);
   rect(340, 50, 400, 50);
-  
+
   // Slider
   stroke(black);
   line(350, 75, 700, 75);
@@ -64,34 +69,58 @@ void draw() {
   rectTactile(350, 50, 400, 50, yellow);
   circle(sliderX, 75, sliderSize);
   sliderSize = map(sliderX, 350, 700, 10, 50);
+
+  // King Julien Stamp
   
-  // Stamp
-  rectTactile(800, 5, 130, 130, yellow);
+  rectTactile(850, 30, 75, 75, yellow);
+  if (kingJulienOn) {
+    stroke(yellow); 
+  }
   fill(255);
-  rect(800, 5, 130, 130);
-  image(kingJulien, 800, 10, 130, 130);
-  
+  rect(850, 30, 75, 75);
+  image(kingJulien, 850, 35, 75, 75);
+
+  // Clover Stamp
+  rectTactile(765, 20, 75, 110, yellow);
+  rect(765, 20, 75, 110);
+  image(clover, 765, 25, 75, 105);
+
   // New button
   fill(255);
   rectTactile(950, 10, 130, 30, yellow);
   rect(950, 10, 130, 30);
   fill(black);
   text("NEW", 1005, 30);
-  
+
   // Save button
   fill(255);
   rectTactile(950, 50, 130, 30, yellow);
   rect(950, 50, 130, 30);
   fill(black);
   text("SAVE", 1005, 70);
-  
+
   // Load buton
   fill(255);
   rectTactile(950, 90, 130, 30, yellow);
   rect(950, 90, 130, 30);
   fill(black);
   text("LOAD", 1005, 110);
-  
+
+  // Indicator
+  fill(white);
+  rect(650, 860, 100, 30);
+
+  fill(black);
+
+  if (kingJulienOn) {
+
+    text("STAMP", 680, 880, 25);
+  } else {
+    text("COLORS", 680, 880, 25);
+  }
+
+  System.out.println("kingJulienOn = " + kingJulienOn);
+  System.out.println("cloverOn = " + cloverOn);
 } // End draw ===============================================================
 
 void button (int x, int y, color Color, color Stroke) {
@@ -112,8 +141,8 @@ void button (int x, int y, color Color, color Stroke) {
 } // End button ========================================================
 
 void circleTactile (int x, int y, int r, color stroke) {
-  if ( dist(x, y, mouseX, mouseY) < r ){
-     stroke(stroke);
+  if ( dist(x, y, mouseX, mouseY) < r ) {
+    stroke(stroke);
   }
 } // end circleTactile ========================================================
 
@@ -122,48 +151,36 @@ void rectTactile(int x, int y, int w, int h, color stroke) {
   if (mouseX > x && mouseX < x + w && mouseY > y && mouseY < y + h) {
     stroke(stroke);
   } else {
-    stroke(black); 
+    stroke(black);
   }
-  
 } // end rectTactile ================================================================
 
 void mouseDragged() {
-  
-  if (kingJulienOn == false) {
-    // Squiggly lines
-    controlLines();
-  } else {
-    stampSliderSize = map(sliderX, 350, 700, 50, 150);
-    
-    // Stamp tool
-    if (mouseX > 350 + 65 && mouseX < 1050 - 65 && mouseY > 150 + 65 && mouseY < 850 - 65) {
-      image(kingJulien, mouseX - stampSliderSize/2, mouseY - stampSliderSize/2, stampSliderSize, stampSliderSize);
-    }
-  }
-  
+
+  controlDrawing();
+
   // Slider
   controlSlider();
 }
 
 void mousePressed() {
   controlSlider();
-  
+
+  // toggle stamps
   if (mouseX > 800 && mouseX < 930 && mouseY > 5 && mouseY < 135) {
-    kingJulienOn = !kingJulienOn; 
+    kingJulienOn = !kingJulienOn;
+    cloverOn = false;
   }
-  
-  if (kingJulienOn == false) {
-    // squiggly lines
-    controlLines();
-  } else {
-    stampSliderSize = map(sliderX, 350, 700, 50, 150);
-    
-    if (mouseX > 350 && mouseX < 1050 && mouseY > 150 && mouseY < 850) {
-      // stamp
-      image(kingJulien, mouseX - stampSliderSize/2, mouseY - stampSliderSize/2, stampSliderSize, stampSliderSize); 
-    }
-  }
+
+  if (mouseX > 765 && mouseX < 840 && mouseY > 20 && mouseY < 130) {
+    cloverOn = !cloverOn;
+    kingJulienOn = false;
+  } // end toggle stamps ===================================================
+
+
+  controlDrawing();
 }
+
 
 void mouseReleased() {
   // New button
@@ -171,19 +188,18 @@ void mouseReleased() {
     stroke(black);
     strokeWeight(5);
     fill(white);
-    square(350, 150, 700); 
+    square(350, 150, 700);
   }
-  
+
   // Save button
   if (mouseX > 950 && mouseX < 1080 && mouseY > 50 && mouseY < 80) {
-     selectOutput("Choose a name for your new image file!", "saveImage");
+    selectOutput("Choose a name for your new image file!", "saveImage");
   }
-  
+
   // Load button
   if (mouseX > 950 && mouseX < 1080 && mouseY > 90 && mouseY < 120) {
     selectInput("Pick an image to load!", "openImage");
   }
-  
 }
 
 void saveImage(File f) {
@@ -195,18 +211,18 @@ void saveImage(File f) {
 
 void openImage(File f) {
   if (f != null) {
-     int n = 0;
-     while (n < 100) {
-       PImage pic = loadImage(f.getPath()) ;
-       image(pic, 350, 150);
-       n = n + 1;
-     }
+    int n = 0;
+    while (n < 100) {
+      PImage pic = loadImage(f.getPath()) ;
+      image(pic, 350, 150);
+      n = n + 1;
+    }
   }
 }
 
 void controlSlider() {
   if (mouseX > 350 && mouseX < 700 && mouseY < 125 && mouseY > 75) {
-    sliderX = mouseX; 
+    sliderX = mouseX;
   }
 }
 
@@ -215,5 +231,25 @@ void controlLines() {
   stroke(lineColor);
   if (mouseX > 350 + sliderSize/2 && mouseX < 1050 - sliderSize/2 && mouseY > 150 + sliderSize/2 && mouseY < 850 - sliderSize/2) {
     line(pmouseX, pmouseY, mouseX, mouseY);
+  }
+}
+
+void controlDrawing() {
+  if (kingJulienOn) {
+    stampSliderSize = map(sliderX, 350, 700, 50, 150);
+
+    if (mouseX > 350 && mouseX < 1050 && mouseY > 150 && mouseY < 850) {
+      // stamp
+      image(kingJulien, mouseX - stampSliderSize/2, mouseY - stampSliderSize/2, stampSliderSize, stampSliderSize);
+    }
+  } else if (cloverOn) {
+    stampSliderSize = map(sliderX, 350, 700, 50, 150);
+
+    if (mouseX > 350 && mouseX < 1050 && mouseY > 150 && mouseY < 850) {
+      // stamp
+      image(clover, mouseX - stampSliderSize/2, mouseY - stampSliderSize/2, stampSliderSize, stampSliderSize);
+    }
+  } else {
+    controlLines();
   }
 }
