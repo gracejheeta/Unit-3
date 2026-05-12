@@ -12,16 +12,19 @@ color lightBlue = #4BBBFF;
 color darkBlue = #0017FC;
 color purple = #6900FF;
 color magenta = #D400FF;
+color pink = #FFC4DE;
 color white = #FFFFFF;
 color black = #000000;
+
 color lineColor;
 color sliderColor = black;
 
+// Slider variables
 float sliderX = 525;
-float stampSliderSize;
 float sliderSize;
+float stampSliderSize;
 
-
+// Stamp images
 PImage kingJulien;
 boolean kingJulienOn = false;
 
@@ -45,6 +48,8 @@ void draw() {
   fill(cream);
   stroke(cream);
   rect(0, 0, 320, height);
+
+  // buttons
   button(95, 100, red, 0);
   button(95, 250, orange, 0);
   button(95, 400, yellow, 0);
@@ -60,67 +65,76 @@ void draw() {
   // Rect under slider
   fill(cream);
   stroke(cream);
-  rect(340, 50, 400, 50);
+
+  // Rects to cover up edges
+  // top
+  rect(340, 50, 1050, 95);
+  //left
+  rect(300, 0, 45, 900);
+  //bottom
+  rect(350, 855, 700, 50);
+  // right
+  rect(1055, 150, 50, 750);
+
+  // Borders around canvas
+  noFill();
+  strokeWeight(5);
+  stroke(black);
+  square(350, 150, 700);
 
   // Slider
   stroke(black);
   line(350, 75, 700, 75);
   fill(sliderColor);
-  rectTactile(350, 50, 400, 50, yellow);
+  rectTactile(350, 50, 400, 50, black, yellow);
   circle(sliderX, 75, sliderSize);
   sliderSize = map(sliderX, 350, 700, 10, 50);
 
   // King Julien Stamp
-  
-  rectTactile(850, 30, 75, 75, yellow);
-  if (kingJulienOn) {
-    stroke(yellow); 
-  }
+  rectTactile(850, 30, 75, 75, black, yellow);
   fill(255);
   rect(850, 30, 75, 75);
   image(kingJulien, 850, 35, 75, 75);
 
   // Clover Stamp
-  rectTactile(765, 20, 75, 110, yellow);
+  rectTactile(765, 20, 75, 110, black, yellow);
   rect(765, 20, 75, 110);
   image(clover, 765, 25, 75, 105);
 
   // New button
   fill(255);
-  rectTactile(950, 10, 130, 30, yellow);
+  rectTactile(950, 10, 130, 30, black, yellow);
   rect(950, 10, 130, 30);
   fill(black);
   text("NEW", 1005, 30);
 
   // Save button
   fill(255);
-  rectTactile(950, 50, 130, 30, yellow);
+  rectTactile(950, 50, 130, 30, black, yellow);
   rect(950, 50, 130, 30);
   fill(black);
   text("SAVE", 1005, 70);
 
   // Load buton
   fill(255);
-  rectTactile(950, 90, 130, 30, yellow);
+  rectTactile(950, 90, 130, 30, black, yellow);
   rect(950, 90, 130, 30);
   fill(black);
   text("LOAD", 1005, 110);
 
   // Indicator
-  fill(white);
+  fill(pink);
+  stroke(black);
   rect(650, 860, 100, 30);
-
   fill(black);
 
   if (kingJulienOn) {
-
-    text("STAMP", 680, 880, 25);
+    text("JULIEN", 680, 880, 25);
+  } else if (cloverOn) {
+    text("CLOVER", 680, 880, 25);
   } else {
     text("COLORS", 680, 880, 25);
   }
-
-  System.out.println("kingJulienOn = " + kingJulienOn);
-  System.out.println("cloverOn = " + cloverOn);
 } // End draw ===============================================================
 
 void button (int x, int y, color Color, color Stroke) {
@@ -147,11 +161,11 @@ void circleTactile (int x, int y, int r, color stroke) {
 } // end circleTactile ========================================================
 
 
-void rectTactile(int x, int y, int w, int h, color stroke) {
+void rectTactile(int x, int y, int w, int h, color stroke, color newStroke) {
   if (mouseX > x && mouseX < x + w && mouseY > y && mouseY < y + h) {
-    stroke(stroke);
+    stroke(newStroke);
   } else {
-    stroke(black);
+    stroke(stroke);
   }
 } // end rectTactile ================================================================
 
