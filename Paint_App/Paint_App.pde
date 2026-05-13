@@ -19,10 +19,9 @@ color black = #000000;
 color lineColor; // color you draw with
 color sliderColor = black; // color of circle on slider
 
-// Slider variables
 float sliderX = 525;
-float sliderSize;
-float stampSliderSize;
+float lineSize; // size of lines you draw
+float stampSize; // size of stamps you draw
 
 // Stamp images
 PImage kingJulien;
@@ -85,8 +84,12 @@ void draw() {
   line(350, 75, 700, 75);
   fill(sliderColor);
   rectTactile(350, 50, 400, 50, yellow);
-  circle(sliderX, 75, sliderSize);
-  sliderSize = map(sliderX, 350, 700, 10, 50);
+  circle(sliderX, 75, lineSize);
+  
+  // map size of line to slider position
+  lineSize = map(sliderX, 350, 700, 10, 50);
+  // map size of stamp to slider position
+  stampSize = map(sliderX, 350, 700, 50, 150);
 
   // King Julien Stamp
   rectTactile(850, 30, 75, 75, yellow);
@@ -230,9 +233,9 @@ void controlSlider() {
 
 void controlLines() {
   // draw lines
-  strokeWeight(sliderSize);
+  strokeWeight(lineSize);
   stroke(lineColor);
-  if (mouseX > 350 + sliderSize/2 && mouseX < 1050 - sliderSize/2 && mouseY > 150 + sliderSize/2 && mouseY < 850 - sliderSize/2) {
+  if (mouseX > 350 + lineSize/2 && mouseX < 1050 - lineSize/2 && mouseY > 150 + lineSize/2 && mouseY < 850 - lineSize/2) {
     line(pmouseX, pmouseY, mouseX, mouseY);
   }
 }
@@ -242,13 +245,11 @@ void controlDrawing() {
   if (mouseX > 350 && mouseX < 1050 && mouseY > 150 && mouseY < 850) {
 
     if (kingJulienOn) {
-      stampSliderSize = map(sliderX, 350, 700, 50, 150);
       // draw king julien stamp
-      image(kingJulien, mouseX - stampSliderSize/2, mouseY - stampSliderSize/2, stampSliderSize, stampSliderSize);
+      image(kingJulien, mouseX - stampSize/2, mouseY - stampSize/2, stampSize, stampSize);
     } else if (cloverOn) {
-      stampSliderSize = map(sliderX, 350, 700, 50, 150);
       // draw clover stamp
-      image(clover, mouseX - stampSliderSize/2, mouseY - stampSliderSize/2, stampSliderSize, stampSliderSize);
+      image(clover, mouseX - stampSize/2, mouseY - stampSize/2, stampSize, stampSize);
     } else {
       // draw normal lines
       controlLines();
