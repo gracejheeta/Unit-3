@@ -17,7 +17,7 @@ color white = #FFFFFF;
 color black = #000000;
 
 color lineColor; // color you draw with
-color sliderColor = black; // color of circle on slider
+color indicatorColor = black;
 
 float sliderX = 525;
 float lineSize; // size of lines you draw
@@ -81,8 +81,8 @@ void draw() {
 
   // Slider
   stroke(black);
+  fill(black);
   line(350, 75, 700, 75);
-  fill(sliderColor);
   rectTactile(350, 50, 400, 50, yellow);
   circle(sliderX, 75, lineSize);
   
@@ -124,27 +124,39 @@ void draw() {
   text("LOAD", 1005, 110);
 
   // Indicator
-  fill(pink);
+  fill(indicatorColor);
   stroke(black);
   rect(650, 860, 100, 30);
-  fill(black);
-
+  // text color
+  if (indicatorColor == black || indicatorColor == darkBlue || indicatorColor == purple) {
+    fill(white);
+  } else {
+    fill(black); 
+  }
+  
   if (kingJulienOn) {
+    indicatorColor = white;
     text("JULIEN", 680, 880, 25);
   } else if (cloverOn) {
     text("CLOVER", 680, 880, 25);
+    indicatorColor = white;
   } else {
     text("COLORS", 680, 880, 25);
   }
+  // end indicator ==============================================================
+  
 } // End draw ===============================================================
 
 void button (int x, int y, color Color, color Stroke) {
+  
   if (dist(x, y, mouseX, mouseY) < 50) {
     Stroke = white;
-
+    
     if (mousePressed == true) {
       lineColor = Color;
-      sliderColor = Color;
+      indicatorColor = Color;
+      kingJulienOn = false;
+      cloverOn = false;
     }
   }
 
@@ -171,7 +183,7 @@ void rectTactile(int x, int y, int w, int h, color newStroke) {
 void mouseDragged() {
   controlDrawing();
   controlSlider();
-}
+} // end mouseDragged =============================================================
 
 void mousePressed() {
   controlSlider();
@@ -212,7 +224,7 @@ void saveImage(File f) {
     PImage canvas = get(350, 150, 700, 700);
     canvas.save(f.getAbsolutePath());
   }
-}
+} // end saveImage ===============================================================
 
 void openImage(File f) {
   if (f != null) {
@@ -223,13 +235,13 @@ void openImage(File f) {
       n = n + 1;
     }
   }
-}
+} // end openImage ============================================================
 
 void controlSlider() {
   if (mouseX > 350 && mouseX < 700 && mouseY < 125 && mouseY > 75) {
     sliderX = mouseX;
   }
-}
+} // end controlSlider ========================================================
 
 void controlLines() {
   // draw lines
@@ -238,7 +250,7 @@ void controlLines() {
   if (mouseX > 350 + lineSize/2 && mouseX < 1050 - lineSize/2 && mouseY > 150 + lineSize/2 && mouseY < 850 - lineSize/2) {
     line(pmouseX, pmouseY, mouseX, mouseY);
   }
-}
+} // end controlLines ==========================================================
 
 void controlDrawing() {
   // if mouse is inside canvas
@@ -256,4 +268,4 @@ void controlDrawing() {
     }
     
   }
-}
+} // end controlDrawing ==========================================================
