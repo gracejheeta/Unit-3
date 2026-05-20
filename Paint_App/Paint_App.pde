@@ -49,17 +49,17 @@ void draw() {
   rect(0, 0, 320, height);
 
   // buttons
-  button(95, 100, red, 0);
-  button(95, 250, orange, 0);
-  button(95, 400, yellow, 0);
-  button(95, 550, lightGreen, 0);
-  button(95, 700, darkGreen, 0);
-  button(245, 100, cyan, 0);
-  button(245, 250, lightBlue, 0);
-  button(245, 400, darkBlue, 0);
-  button(245, 550, purple, 0);
-  button(245, 700, magenta, 0);
-  button(170, 840, black, 0);
+  button(95, 100, red);
+  button(95, 250, orange);
+  button(95, 400, yellow);
+  button(95, 550, lightGreen);
+  button(95, 700, darkGreen);
+  button(245, 100, cyan);
+  button(245, 250, lightBlue);
+  button(245, 400, darkBlue);
+  button(245, 550, purple);
+  button(245, 700, magenta);
+  button(170, 840, black);
 
   // Rects to cover up edges
   fill(cream);
@@ -83,7 +83,11 @@ void draw() {
   stroke(black);
   fill(black);
   line(350, 75, 700, 75);
-  rectTactile(350, 50, 400, 50, yellow);
+  
+  if (mouseX > 350 && mouseX < 700 && mouseY > 25 && mouseY < 125) {
+    stroke(yellow);  
+  }
+  
   circle(sliderX, 75, lineSize);
   
   // map size of line to slider position
@@ -92,34 +96,34 @@ void draw() {
   stampSize = map(sliderX, 350, 700, 50, 150);
 
   // King Julien Stamp
-  rectTactile(850, 30, 75, 75, yellow);
+  rectTactile(850, 30, 75, 75, yellow, white);
   fill(255);
-  rect(850, 30, 75, 75);
+  //rect(850, 30, 75, 75);
   image(kingJulien, 850, 35, 75, 75);
 
   // Clover Stamp
-  rectTactile(765, 20, 75, 110, yellow);
-  rect(765, 20, 75, 110);
+  rectTactile(765, 20, 75, 110, yellow, white);
+  //rect(765, 20, 75, 110);
   image(clover, 765, 25, 75, 105);
 
   // New button
   fill(255);
-  rectTactile(950, 10, 130, 30, yellow);
-  rect(950, 10, 130, 30);
+  rectTactile(950, 10, 130, 30, yellow, white);
+  //rect(950, 10, 130, 30);
   fill(black);
   text("NEW", 1005, 30);
 
   // Save button
   fill(255);
-  rectTactile(950, 50, 130, 30, yellow);
-  rect(950, 50, 130, 30);
+  rectTactile(950, 50, 130, 30, yellow, white);
+  //rect(950, 50, 130, 30);
   fill(black);
   text("SAVE", 1005, 70);
 
   // Load buton
   fill(255);
-  rectTactile(950, 90, 130, 30, yellow);
-  rect(950, 90, 130, 30);
+  rectTactile(950, 90, 130, 30, yellow, white);
+  //rect(950, 90, 130, 30);
   fill(black);
   text("LOAD", 1005, 110);
 
@@ -147,11 +151,9 @@ void draw() {
   
 } // End draw ===============================================================
 
-void button (int x, int y, color Color, color Stroke) {
+void button (int x, int y, color Color) {
   
   if (dist(x, y, mouseX, mouseY) < 50) {
-    Stroke = white;
-    
     if (mousePressed == true) {
       lineColor = Color;
       indicatorColor = Color;
@@ -161,23 +163,29 @@ void button (int x, int y, color Color, color Stroke) {
   }
 
   strokeWeight(5);
-  stroke(Stroke);
-  fill(Color);
-  ellipse(x, y, 100, 100);
+  circleTactile(x, y, 50, white, Color);
 } // End button ========================================================
 
-void circleTactile (int x, int y, int r, color stroke) {
+void circleTactile (int x, int y, int r, color newStroke, color Fill) {
   if ( dist(x, y, mouseX, mouseY) < r ) {
-    stroke(stroke);
+    stroke(newStroke);
+  } else {
+    stroke(black); 
   }
+  
+  fill(Fill);
+  circle(x, y, 2 * r);
 } // end circleTactile ========================================================
 
-void rectTactile(int x, int y, int w, int h, color newStroke) {
+void rectTactile(int x, int y, int w, int h, color newStroke, color Fill) {
   if (mouseX > x && mouseX < x + w && mouseY > y && mouseY < y + h) {
     stroke(newStroke);
   } else {
     stroke(black);
   }
+  
+  fill(Fill);
+  rect(x, y, w, h);
 } // end rectTactile ================================================================
 
 void mouseDragged() {
@@ -238,7 +246,7 @@ void openImage(File f) {
 } // end openImage ============================================================
 
 void controlSlider() {
-  if (mouseX > 350 && mouseX < 700 && mouseY < 125 && mouseY > 75) {
+  if (mouseX > 350 && mouseX < 700 && mouseY < 125 && mouseY > 25) {
     sliderX = mouseX;
   }
 } // end controlSlider ========================================================
